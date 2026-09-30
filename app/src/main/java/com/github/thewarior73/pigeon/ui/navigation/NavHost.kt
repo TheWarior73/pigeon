@@ -1,9 +1,11 @@
 package com.github.thewarior73.pigeon.ui.navigation
 
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation3.runtime.entryProvider
 import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
+import com.github.thewarior73.pigeon.ui.feature.home.HomeScreen
 
 @Composable
 fun NavHost() {
@@ -17,17 +19,11 @@ fun NavHost() {
                 )
             }
             entry<Destination.Detail> { destination ->
-                DetailScreen(
-                    onBackClick = {backStack.removeLastOrNull()},
-                    poste = destination.poste
-                )
+                Text(text = "Detail: ${destination.poste}")
             }
             entry<Destination.OpenHoursDetail> { destination ->
-                HoursDetailScreen(
-                    onBackClick = {backStack.removeLastOrNull()},
-                    poste = destination.poste
-                )
+                Text(text = "Open Hours Detail: ${destination.poste}")
             }
-        }
+        },
     )
 }
