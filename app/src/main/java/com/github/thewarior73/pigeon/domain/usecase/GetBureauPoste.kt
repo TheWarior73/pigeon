@@ -1,7 +1,7 @@
 package com.github.thewarior73.pigeon.domain.usecase
 
 import com.github.thewarior73.pigeon.data.model.BureauPoste
-import com.github.thewarior73.pigeon.data.repository.BureauPosteRepository
+import com.github.thewarior73.pigeon.repository.BureauPosteRepository
 import kotlinx.coroutines.flow.Flow
 
 object GetBureauPoste {

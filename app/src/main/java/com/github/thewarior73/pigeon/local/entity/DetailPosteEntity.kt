@@ -1,4 +1,4 @@
-package com.github.thewarior73.pigeon.data.local.entity
+package com.github.thewarior73.pigeon.local.entity
 
 import androidx.room3.ColumnInfo
 import androidx.room3.Entity

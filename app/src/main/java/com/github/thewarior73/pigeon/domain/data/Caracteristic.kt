@@ -1,4 +1,4 @@
-package com.github.thewarior73.pigeon.data
+package com.github.thewarior73.pigeon.domain.data
 
 enum class Caracteristic(val raw :String) {
     bdp("Bureau de Poste"),

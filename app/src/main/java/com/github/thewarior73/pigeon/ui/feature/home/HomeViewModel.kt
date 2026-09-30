@@ -2,7 +2,7 @@ package com.github.thewarior73.pigeon.ui.feature.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.github.thewarior73.pigeon.data.local.BureauPosteDatabase
+import com.github.thewarior73.pigeon.local.BureauPosteDatabase
 import com.github.thewarior73.pigeon.data.model.BureauPoste
 import com.github.thewarior73.pigeon.domain.usecase.GetBureauPoste
 import kotlinx.coroutines.flow.SharingStarted

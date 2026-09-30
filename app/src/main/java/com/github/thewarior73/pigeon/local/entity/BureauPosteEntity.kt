@@ -1,10 +1,9 @@
-package com.github.thewarior73.pigeon.data.local.entity
+package com.github.thewarior73.pigeon.local.entity
 
-import android.R
 import androidx.room3.ColumnInfo
 import androidx.room3.Entity
 import androidx.room3.PrimaryKey
-import com.github.thewarior73.pigeon.data.Caracteristic
+import com.github.thewarior73.pigeon.domain.data.Caracteristic
 
 @Entity(tableName = "bureau_poste")
 data class BureauPosteEntity (

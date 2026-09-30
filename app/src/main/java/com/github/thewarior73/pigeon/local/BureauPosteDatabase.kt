@@ -1,4 +1,4 @@
-package com.github.thewarior73.pigeon.data.local
+package com.github.thewarior73.pigeon.local
 
 import com.github.thewarior73.pigeon.data.model.BureauPoste
 import kotlinx.coroutines.flow.Flow

@@ -1,6 +1,6 @@
-package com.github.thewarior73.pigeon.data.repository
+package com.github.thewarior73.pigeon.repository
 
-import com.github.thewarior73.pigeon.data.local.BureauPosteDatabase
+import com.github.thewarior73.pigeon.local.BureauPosteDatabase
 import com.github.thewarior73.pigeon.data.model.BureauPoste
 import kotlinx.coroutines.flow.Flow
 
