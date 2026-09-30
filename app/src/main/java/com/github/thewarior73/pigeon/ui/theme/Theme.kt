@@ -1,6 +1,5 @@
 package com.github.thewarior73.pigeon.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,15 +11,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
+    primary = creamy_white,
+    secondary = gray_laposte_500,
+    tertiary = blue_laposte,
+    background = gray_laposte_900,
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
+    primary = gray_laposte_900,
+    secondary = gray_laposte_100,
+    tertiary = blue_laposte,
+    background = creamy_white,
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
@@ -37,7 +38,7 @@ private val LightColorScheme = lightColorScheme(
 fun PigeonTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
