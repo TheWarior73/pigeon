@@ -14,9 +14,9 @@ object BureauPosteDatabase {
         if (_bureauPostes.value.isEmpty()) {
             _bureauPostes.update {
                 listOf(
-                    BureauPoste("1", "Poste Centrale Paris", "Paris", "1 Rue du Louvre"),
-                    BureauPoste("2", "Poste Lyon Bellecour", "Lyon", "Place Bellecour"),
-                    BureauPoste("3", "Poste Marseille Canebière", "Marseille", "La Canebière")
+                    BureauPoste("1", "Poste Centrale Paris", "Paris", "1 Rue du Louvre", "8h-18h", 18),
+                    BureauPoste("2", "Poste Lyon Bellecour", "Lyon", "Place Bellecour", "8h-18h", 20),
+                    BureauPoste("3", "Poste Marseille Canebière", "Marseille", "La Canebière", "8h-18h", 300)
                 )
             }
         }

@@ -1,6 +1,7 @@
 package com.github.thewarior73.pigeon.ui.feature.home
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -70,14 +71,7 @@ fun HomeScreen(
             contentPadding = PaddingValues(10.dp),
             verticalArrangement = Arrangement.spacedBy(5.dp)
         ) {
-            item {
-                Text(
-                    text = "Liste des bureaux de poste",
-                    color = MaterialTheme.colorScheme.secondary,
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
-            }
+
             items(items = poste) { element ->
                 BureauPosteItem(
                     poste = element,
