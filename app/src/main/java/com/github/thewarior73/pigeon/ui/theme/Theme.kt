@@ -22,7 +22,6 @@ private val LightColorScheme = lightColorScheme(
     secondary = gray_laposte_100,
     tertiary = blue_laposte,
     background = creamy_white,
-
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
     surface = Color(0xFFFFFBFE),
