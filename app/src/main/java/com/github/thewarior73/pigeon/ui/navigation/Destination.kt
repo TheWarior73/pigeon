@@ -12,5 +12,5 @@ sealed interface Destination : NavKey {
     data class Detail(val bureauPoste: BureauPoste): Destination
 
     @Serializable
-    data class OpenHoursDetail(val poste: String) : Destination
+    data class OpenHoursDetail(val bureauPoste: BureauPoste) : Destination
 }

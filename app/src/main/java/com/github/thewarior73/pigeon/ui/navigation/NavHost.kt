@@ -7,6 +7,7 @@ import androidx.navigation3.runtime.rememberNavBackStack
 import androidx.navigation3.ui.NavDisplay
 import com.github.thewarior73.pigeon.ui.feature.detail.DetailScreen
 import com.github.thewarior73.pigeon.ui.feature.home.HomeScreen
+import com.github.thewarior73.pigeon.ui.feature.schedule.ScheduleScreen
 
 @Composable
 fun NavHost() {
@@ -23,11 +24,14 @@ fun NavHost() {
                 DetailScreen(
                     bureauPoste = destination.bureauPoste,
                     onBackClick = { backStack.removeLastOrNull() },
-                    onOpenHoursClick = { poste -> backStack.add(Destination.OpenHoursDetail(poste = poste)) }
+                    onOpenHoursClick = { bureauPoste -> backStack.add(Destination.OpenHoursDetail(bureauPoste)) }
                 )
             }
             entry<Destination.OpenHoursDetail> { destination ->
-                Text(text = "Open Hours Detail: ${destination.poste}")
+                ScheduleScreen(
+                    bureauPoste = destination.bureauPoste,
+                    onBackClick = { backStack.removeLastOrNull() }
+                )
             }
         },
     )

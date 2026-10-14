@@ -70,7 +70,7 @@ fun DetailScreen(
     bureauPoste: BureauPoste,
     detail: DetailPoste? = null,
     onBackClick: () -> Unit,
-    onOpenHoursClick: (String) -> Unit = {}
+    onOpenHoursClick: (BureauPoste) -> Unit = {}
 ) {
     var loadedDetail by remember(bureauPoste.id) { mutableStateOf(detail) }
     LaunchedEffect(bureauPoste.id) {
@@ -285,7 +285,7 @@ fun DetailScreen(
             }
 
             Card(
-                onClick = { onOpenHoursClick(bureauPoste.name) },
+                onClick = { onOpenHoursClick(bureauPoste) },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Surface(

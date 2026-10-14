@@ -34,6 +34,7 @@ object LaPosteApi {
                 parameter("geo_distance", "$lon:$lat:$distanceInMeters")
                 if (!query.isNullOrBlank()) {
                     parameter("q", query)
+                    parameter("q_fields", "localite")
                 }
             }
             if (response.status.isSuccess()) {
@@ -49,29 +50,45 @@ object LaPosteApi {
     }
 
     suspend fun fetchDetailPoste(identifiantA: String): DetailPoste? {
-        if (identifiantA.isBlank()) return null
+        val details = fetchDetailPostes(identifiantA)
+        val today = LocalDate.now()
+        return details.minByOrNull { detail ->
+            runCatching { abs(ChronoUnit.DAYS.between(today, LocalDate.parse(detail.date))) }
+                .getOrNull() ?: Long.MAX_VALUE
+        }
+    }
+
+    suspend fun fetchNextSevenDays(identifiantA: String): List<DetailPoste> {
+        val today = LocalDate.now()
+        val lastDay = today.plusDays(6)
+        return fetchDetailPostes(identifiantA)
+            .mapNotNull { detail ->
+                runCatching { LocalDate.parse(detail.date) to detail }.getOrNull()
+            }
+            .filter { (date, _) -> !date.isBefore(today) && !date.isAfter(lastDay) }
+            .sortedBy { (date, _) -> date }
+            .map { (_, detail) -> detail }
+    }
+
+    private suspend fun fetchDetailPostes(identifiantA: String): List<DetailPoste> {
+        if (identifiantA.isBlank()) return emptyList()
 
         return try {
             val response = client.get("https://data.laposte.fr/data-fair/api/v1/datasets/tjwztt6h44ve52i7fln6rbxz/lines") {
                 parameter("q", identifiantA)
+                parameter("sort", "date_calendrier")
                 parameter("size", 100)
             }
             if (response.status.isSuccess()) {
                 val result: RemoteDetailResponse = response.body()
-                val today = LocalDate.now()
-                result.results.minByOrNull { line ->
-                    line.date_calendrier?.let { date ->
-                        runCatching { abs(ChronoUnit.DAYS.between(today, LocalDate.parse(date))) }
-                            .getOrNull()
-                    } ?: Long.MAX_VALUE
-                }?.toDetailPoste()
+                result.results.map { it.toDetailPoste() }
             } else {
                 Log.e("LaPosteApi", "Detail HTTP Error ${response.status}")
-                null
+                emptyList()
             }
         } catch (e: Exception) {
             Log.e("LaPosteApi", "Detail Network Error: ${e.message}", e)
-            null
+            emptyList()
         }
     }
 }
