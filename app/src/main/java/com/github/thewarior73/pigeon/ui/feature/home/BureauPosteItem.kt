@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,13 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.github.thewarior73.pigeon.R
 import com.github.thewarior73.pigeon.data.model.BureauPoste
-import com.github.thewarior73.pigeon.ui.theme.blue_laposte
-import com.github.thewarior73.pigeon.ui.theme.creamy_white
-import com.github.thewarior73.pigeon.ui.theme.gray_laposte_900
-import com.github.thewarior73.pigeon.ui.theme.yellow_laposte_200
+import com.github.thewarior73.pigeon.ui.theme.gray_laposte_500
 
 @Composable
 fun BureauPosteItem(
@@ -38,7 +37,7 @@ fun BureauPosteItem(
         modifier = modifier.padding(vertical = 4.dp)
     ) {
         Surface(
-            color = yellow_laposte_200,
+            color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.fillMaxWidth()
         ) {
             Row(
@@ -54,7 +53,7 @@ fun BureauPosteItem(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Column(
-                    modifier = Modifier.weight(1f)
+                    modifier = Modifier.weight(1f),
                 ) {
                     Row(
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -63,12 +62,12 @@ fun BureauPosteItem(
                         Text(
                             text = poste.name,
                             style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.tertiary
+                            color = gray_laposte_500
                         )
                         Text(
                             text = "${poste.distance} km",
                             style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.tertiary
+                            color = gray_laposte_500
                         )
                     }
                     Row(
@@ -77,21 +76,21 @@ fun BureauPosteItem(
                         Icon(
                             painter = painterResource(id = R.drawable.outline_alarm_24),
                             contentDescription = "Horaire",
-                            tint = blue_laposte,
+                            tint = MaterialTheme.colorScheme.secondary,
                             modifier = Modifier.size(16.dp)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
                         Text(
                             text = "${poste.horaire}",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = blue_laposte
+                            color = MaterialTheme.colorScheme.secondary
                         )
                     }
                     Box(
                         modifier = Modifier
                             .align(Alignment.End)
                             .background(
-                                color = gray_laposte_900,
+                                color = gray_laposte_500,
                                 shape = RoundedCornerShape(10.dp)
                             )
                             .padding(horizontal = 8.dp, vertical = 4.dp)
@@ -99,11 +98,18 @@ fun BureauPosteItem(
                         Text(
                             text = "detail →",
                             style = MaterialTheme.typography.bodySmall,
-                            color = creamy_white
+                            color = MaterialTheme.colorScheme.primary
                         )
                     }
                 }
             }
         }
     }
+}
+
+
+@Preview
+@Composable
+fun BureauPosteItemPreview() {
+
 }
