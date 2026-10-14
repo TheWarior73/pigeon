@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.thewarior73.pigeon.data.model.BureauPoste
@@ -12,6 +13,7 @@ import com.github.thewarior73.pigeon.local.BureauPosteDatabase
 import com.github.thewarior73.pigeon.remote.LaPosteApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -22,7 +24,18 @@ class HomeViewModel : ViewModel() {
     var maxDistance by mutableStateOf<Int?>(null)
         private set
 
-    val bureauPoste: StateFlow<List<BureauPoste>> = GetBureauPoste.invoke()
+    val bureauPoste: StateFlow<List<BureauPoste>> = snapshotFlow { searchQuery }
+        .combine(GetBureauPoste.invoke()) { query, list ->
+            if (query.isBlank()) {
+                list
+            } else {
+                list.filter {
+                    it.name.contains(query, ignoreCase = true) ||
+                    it.city.contains(query, ignoreCase = true) ||
+                    it.address.contains(query, ignoreCase = true)
+                }
+            }
+        }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),

@@ -7,19 +7,32 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import android.content.Context
-import androidx.room3.Database
-import androidx.room3.Room
-import androidx.room3.RoomDatabase
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
 import com.github.thewarior73.pigeon.local.dao.BureauPosteDAO
 import com.github.thewarior73.pigeon.local.dao.DetailPosteDAO
 import com.github.thewarior73.pigeon.local.entity.BureauPosteEntity
 import com.github.thewarior73.pigeon.local.entity.DetailPosteEntity
+
+class Converters {
+    @TypeConverter
+    fun fromCharacteristic(value: Characteristic?): String? = value?.name
+
+    @TypeConverter
+    fun toCharacteristic(value: String?): Characteristic? = value?.let {
+        try { Characteristic.valueOf(it) } catch (e: Exception) { Characteristic.bdp }
+    }
+}
 
 @Database(
     entities = [BureauPosteEntity::class, DetailPosteEntity::class],
     version = 1,
     exportSchema = false
 )
+@TypeConverters(Converters::class)
 abstract class BureauPosteDatabase : RoomDatabase() {
 
     abstract fun bureauPosteDao(): BureauPosteDAO
@@ -132,10 +145,10 @@ abstract class BureauPosteDatabase : RoomDatabase() {
     }
 }
 
-data object BureauPosteDatabaseHolder {
+object BureauPosteDatabaseHolder {
     var database: BureauPosteDatabase? = null
 
     fun initialize(context: Context) {
-        database = BureauPosteDatabase.get(context);
+        database = BureauPosteDatabase.get(context)
     }
 }

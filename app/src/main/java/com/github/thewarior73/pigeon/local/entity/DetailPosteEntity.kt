@@ -1,8 +1,8 @@
 package com.github.thewarior73.pigeon.local.entity
 
-import androidx.room3.ColumnInfo
-import androidx.room3.Entity
-import androidx.room3.PrimaryKey
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.github.thewarior73.pigeon.data.model.DetailPoste
 
 @Entity(tableName = "detail_poste")

@@ -8,7 +8,9 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import androidx.core.content.ContextCompat
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.resume
 
 object LocationHelper {
@@ -28,15 +30,15 @@ object LocationHelper {
     }
 
     @SuppressLint("MissingPermission")
-    suspend fun getUserLocation(context: Context?): Pair<Double, Double> {
+    suspend fun getUserLocation(context: Context?): Pair<Double, Double> = withContext(Dispatchers.Main) {
         val defaultLocation = Pair(48.8566, 2.3522) // Paris default (lat, lon)
         if (context == null || !hasLocationPermission(context)) {
-            return defaultLocation
+            return@withContext defaultLocation
         }
 
-        return try {
+        return@withContext try {
             val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-                ?: return defaultLocation
+                ?: return@withContext defaultLocation
 
             val providers = locationManager.getProviders(true)
             var bestLocation: Location? = null
@@ -49,7 +51,7 @@ object LocationHelper {
             }
 
             if (bestLocation != null) {
-                return Pair(bestLocation.latitude, bestLocation.longitude)
+                return@withContext Pair(bestLocation.latitude, bestLocation.longitude)
             }
 
             // Request a fresh single location update if last known is null

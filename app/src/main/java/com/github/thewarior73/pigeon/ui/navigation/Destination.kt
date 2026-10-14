@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 sealed interface Destination : NavKey {
     @Serializable
-    data object Home : Destination
+    object Home : Destination
 
     @Serializable
     data class Detail(val bureauPoste: BureauPoste): Destination
