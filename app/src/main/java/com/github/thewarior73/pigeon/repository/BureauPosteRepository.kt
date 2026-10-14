@@ -4,10 +4,14 @@ import com.github.thewarior73.pigeon.local.BureauPosteDatabase
 import com.github.thewarior73.pigeon.data.model.BureauPoste
 import kotlinx.coroutines.flow.Flow
 
-class BureauPosteRepository {
+object BureauPosteRepository {
     val bureauPostes: Flow<List<BureauPoste>> = BureauPosteDatabase.bureauPostes
 
     suspend fun refreshSampleData() {
         BureauPosteDatabase.loadInitialData()
+    }
+
+    fun getBureauPostes(): Flow<List<BureauPoste>> {
+        return bureauPostes
     }
 }

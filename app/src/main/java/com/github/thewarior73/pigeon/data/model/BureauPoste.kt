@@ -1,5 +1,6 @@
 package com.github.thewarior73.pigeon.data.model
 
+import com.github.thewarior73.pigeon.domain.data.Characteristic
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,5 +10,6 @@ data class BureauPoste(
     val city: String,
     val address: String,
     val horaire: String,
-    val distance: Int,
+    val type: Characteristic,
+    val distance: Float,
 )
