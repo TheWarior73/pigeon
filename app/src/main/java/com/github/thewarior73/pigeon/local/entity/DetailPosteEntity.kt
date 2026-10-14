@@ -9,10 +9,8 @@ import com.github.thewarior73.pigeon.data.model.DetailPoste
 data class DetailPosteEntity(
     @PrimaryKey @ColumnInfo(name = "id_bureau") val id_bureau: String,
     @ColumnInfo(name = "date") val date: String,
-    @ColumnInfo(name = "heure_ouverture_AM") val heure_ouverture_AM: String?,
-    @ColumnInfo(name = "heure_fermeture_AM") val heure_fermeture_AM: String?,
-    @ColumnInfo(name = "heure_ouverture_PM") val heure_ouverture_PM: String?,
-    @ColumnInfo(name = "heure_fermeture_PM") val heure_fermeture_PM: String?,
+    @ColumnInfo(name = "plage_ouverture_AM") val plage_ouverture_AM: String?,
+    @ColumnInfo(name = "plage_ouverture_PM") val plage_ouverture_PM: String?,
     @ColumnInfo(name = "heure_fin_courier") val heure_fin_courier: String?,
     @ColumnInfo(name = "heure_fin_colis") val heure_fin_colis: String?,
     @ColumnInfo(name = "heure_fin_chronoposte") val heure_fin_chronoposte: String?,
@@ -21,10 +19,8 @@ data class DetailPosteEntity(
         return DetailPoste(
             id_bureau,
             date,
-            heure_ouverture_AM,
-            heure_fermeture_AM,
-            heure_ouverture_PM,
-            heure_fermeture_PM,
+            plage_ouverture_AM,
+            plage_ouverture_PM,
             heure_fin_courier,
             heure_fin_colis,
             heure_fin_chronoposte
@@ -36,10 +32,8 @@ data class DetailPosteEntity(
             return DetailPosteEntity(
                 detail.id_bureau,
                 detail.date,
-                detail.heure_ouverture_AM,
-                detail.heure_fermeture_AM,
-                detail.heure_ouverture_PM,
-                detail.heure_fermeture_PM,
+                detail.plage_ouverture_AM,
+                detail.plage_ouverture_PM,
                 detail.heure_fin_courrier,
                 detail.heure_fin_colis,
                 detail.heure_fin_chronopost
