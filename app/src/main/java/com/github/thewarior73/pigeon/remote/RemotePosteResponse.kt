@@ -13,6 +13,7 @@ data class RemotePosteResponse(
 @Serializable
 data class RemotePosteLine(
     val _id: String? = null,
+    val identifiant_a: String? = null,
     val libelle_du_site: String? = null,
     val localite: String? = null,
     val adresse: String? = null,
@@ -22,7 +23,7 @@ data class RemotePosteLine(
 ) {
     fun toBureauPoste(): BureauPoste {
         return BureauPoste(
-            id = _id ?: "",
+            id = identifiant_a ?: _id ?: "",
             name = libelle_du_site ?: "Bureau de Poste",
             city = localite ?: "",
             address = adresse ?: "",

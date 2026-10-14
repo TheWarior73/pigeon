@@ -20,6 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import com.github.thewarior73.pigeon.R
 import com.github.thewarior73.pigeon.data.model.BureauPoste
 import com.github.thewarior73.pigeon.data.model.DetailPoste
+import com.github.thewarior73.pigeon.remote.LaPosteApi
 import com.github.thewarior73.pigeon.ui.theme.blue_laposte
 import com.github.thewarior73.pigeon.ui.theme.gray_laposte_500
 import com.github.thewarior73.pigeon.ui.theme.yellow_laposte_100
@@ -62,18 +68,14 @@ private fun isCurrentlyOpen(horaire: String): Boolean {
 @Composable
 fun DetailScreen(
     bureauPoste: BureauPoste,
-    detail: DetailPoste = DetailPoste(
-        id_bureau = bureauPoste.id,
-        date = "",
-        plage_ouverture_AM = " 08h30 - 12h00",
-        plage_ouverture_PM = " 14h00 - 18h00",
-        heure_fin_courrier = "16h00",
-        heure_fin_colis = "15h30",
-        heure_fin_chronopost = "17h00"
-    ),
+    detail: DetailPoste? = null,
     onBackClick: () -> Unit,
     onOpenHoursClick: (String) -> Unit = {}
 ) {
+    var loadedDetail by remember(bureauPoste.id) { mutableStateOf(detail) }
+    LaunchedEffect(bureauPoste.id) {
+        loadedDetail = LaPosteApi.fetchDetailPoste(bureauPoste.id)
+    }
     val isOpen = isCurrentlyOpen(bureauPoste.horaire)
 
     Scaffold(
@@ -190,12 +192,12 @@ fun DetailScreen(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             Text(
-                                text = "• Matin :" + detail.plage_ouverture_AM,
+                                text = "• Matin : ${loadedDetail?.plage_ouverture_AM ?: "—"}",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = blue_laposte
                             )
                             Text(
-                                text = "• Après-midi :" + detail.plage_ouverture_PM,
+                                text = "• Après-midi : ${loadedDetail?.plage_ouverture_PM ?: "—"}",
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = blue_laposte
                             )
@@ -235,7 +237,7 @@ fun DetailScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.tertiary
                         )
-                        detail.heure_fin_courrier?.let {
+                        loadedDetail?.heure_fin_courrier?.let {
                             Text(
                                 text = it,
                                 style = MaterialTheme.typography.bodyMedium,
@@ -253,7 +255,7 @@ fun DetailScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.tertiary
                         )
-                        detail.heure_fin_colis?.let {
+                        loadedDetail?.heure_fin_colis?.let {
                             Text(
                                 text = it,
                                 style = MaterialTheme.typography.bodyMedium,
@@ -271,7 +273,7 @@ fun DetailScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.tertiary
                         )
-                        detail.heure_fin_chronopost?.let {
+                        loadedDetail?.heure_fin_chronopost?.let {
                             Text(
                                 text = it,
                                 style = MaterialTheme.typography.bodyMedium,
