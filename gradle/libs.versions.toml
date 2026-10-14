@@ -10,7 +10,7 @@ kotlin = "2.2.10"
 composeBom = "2026.02.01"
 navigation3 = "1.1.7"
 kotlinxSerialization = "1.8.0"
-room = "2.6.1"
+room3 = "3.0.3"
 ksp = "2.2.10-2.0.2"
 ktor = "3.0.3"
 
@@ -36,9 +36,9 @@ androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 
 # Room - DB
-androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
-androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
-androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+androidx-room3-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room3" }
+androidx-room3-common = { group = "androidx.room3", name = "room3-common", version.ref = "room3" }
+androidx-room3-compiler = { group = "androidx.room3", name = "room3-compiler", version.ref = "room3" }
 
 # Ktor - HTTP
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }

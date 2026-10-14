@@ -50,9 +50,9 @@ dependencies {
     implementation(libs.androidx.navigation3.ui)
 
     // Room
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.room3.runtime)
+    implementation(libs.androidx.room3.common)
+    ksp(libs.androidx.room3.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 
