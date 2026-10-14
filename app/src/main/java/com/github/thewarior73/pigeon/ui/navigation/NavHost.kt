@@ -22,7 +22,8 @@ fun NavHost() {
             entry<Destination.Detail> { destination ->
                 DetailScreen(
                     bureauPoste = destination.bureauPoste,
-                    onBackClick = { backStack.removeLastOrNull() }
+                    onBackClick = { backStack.removeLastOrNull() },
+                    onOpenHoursClick = { poste -> backStack.add(Destination.OpenHoursDetail(poste = poste)) }
                 )
             }
             entry<Destination.OpenHoursDetail> { destination ->

@@ -1,0 +1,42 @@
+package com.github.thewarior73.pigeon.remote
+
+import android.content.Context
+import android.util.Log
+import io.ktor.client.call.body
+import io.ktor.client.request.get
+import io.ktor.client.request.parameter
+import io.ktor.http.isSuccess
+
+object LaPosteApi {
+    private val client by lazy { HttpClientFactory.create() }
+
+    suspend fun fetchPostegeoloc(
+        distance: Int?,
+        context: Context? = null,
+        latitude: Double? = null,
+        longitude: Double? = null
+    ): RemotePosteResponse {
+        val (lat, lon) = if (latitude != null && longitude != null) {
+            Pair(latitude, longitude)
+        } else {
+            LocationHelper.getUserLocation(context)
+        }
+
+        val distanceInMeters = (distance ?: 50) * 1000
+
+        return try {
+            val response = client.get("https://data.laposte.fr/data-fair/api/v1/datasets/laposte-poincont2/lines") {
+                parameter("geo_distance", "$lon,$lat,$distanceInMeters")
+            }
+            if (response.status.isSuccess()) {
+                response.body()
+            } else {
+                Log.e("LaPosteApi", "HTTP Error ${response.status}")
+                RemotePosteResponse()
+            }
+        } catch (e: Exception) {
+            Log.e("LaPosteApi", "Network Error: ${e.message}", e)
+            RemotePosteResponse()
+        }
+    }
+}

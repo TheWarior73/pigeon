@@ -27,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.github.thewarior73.pigeon.R
 import com.github.thewarior73.pigeon.data.model.BureauPoste
+import com.github.thewarior73.pigeon.data.model.DetailPoste
 import com.github.thewarior73.pigeon.ui.theme.blue_laposte
 import com.github.thewarior73.pigeon.ui.theme.gray_laposte_500
 import com.github.thewarior73.pigeon.ui.theme.yellow_laposte_100
@@ -61,7 +62,17 @@ private fun isCurrentlyOpen(horaire: String): Boolean {
 @Composable
 fun DetailScreen(
     bureauPoste: BureauPoste,
-    onBackClick: () -> Unit
+    detail: DetailPoste = DetailPoste(
+        id_bureau = bureauPoste.id,
+        date = "",
+        plage_ouverture_AM = " 08h30 - 12h00",
+        plage_ouverture_PM = " 14h00 - 18h00",
+        heure_fin_courrier = "16h00",
+        heure_fin_colis = "15h30",
+        heure_fin_chronopost = "17h00"
+    ),
+    onBackClick: () -> Unit,
+    onOpenHoursClick: (String) -> Unit = {}
 ) {
     val isOpen = isCurrentlyOpen(bureauPoste.horaire)
 
@@ -179,12 +190,12 @@ fun DetailScreen(
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
                             Text(
-                                text = "• Matin : 08h30 - 12h00",
+                                text = "• Matin :" + detail.plage_ouverture_AM,
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = blue_laposte
                             )
                             Text(
-                                text = "• Après-midi : 14h00 - 18h00",
+                                text = "• Après-midi :" + detail.plage_ouverture_PM,
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = blue_laposte
                             )
@@ -224,11 +235,13 @@ fun DetailScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.tertiary
                         )
-                        Text(
-                            text = bureauPoste.courrierDeadline,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
+                        detail.heure_fin_courrier?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
+                        }
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -240,11 +253,13 @@ fun DetailScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.tertiary
                         )
-                        Text(
-                            text = bureauPoste.colisDeadline,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.tertiary
-                        )
+                        detail.heure_fin_colis?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
+                        }
                     }
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -256,10 +271,42 @@ fun DetailScreen(
                             style = MaterialTheme.typography.bodyMedium,
                             color = MaterialTheme.colorScheme.tertiary
                         )
+                        detail.heure_fin_chronopost?.let {
+                            Text(
+                                text = it,
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.tertiary
+                            )
+                        }
+                    }
+                }
+            }
+
+            Card(
+                onClick = { onOpenHoursClick(bureauPoste.name) },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Surface(
+                    color = blue_laposte,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Text(
-                            text = bureauPoste.chronopostDeadline,
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = MaterialTheme.colorScheme.tertiary
+                            text = "Horaires sur les 7 prochains jours",
+                            style = MaterialTheme.typography.titleMedium,
+                            color = Color.White
+                        )
+                        Icon(
+                            painter = painterResource(id = R.drawable.arrow_forward),
+                            contentDescription = "Voir les horaires",
+                            tint = Color.White,
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }

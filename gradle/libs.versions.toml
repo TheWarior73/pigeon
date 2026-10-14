@@ -14,6 +14,7 @@ room = "2.6.1"
 ksp = "2.2.10-2.0.2"
 room3Common = "3.0.3" # DB
 ktor = "3.0.3"
+firebaseCrashlyticsBuildtools = "3.0.8" # HTTP
 room3Runtime = "3.0.3" # HTTP
 
 [libraries]
@@ -49,6 +50,7 @@ ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.r
 ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
 ktor-client-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
+firebase-crashlytics-buildtools = { group = "com.google.firebase", name = "firebase-crashlytics-buildtools", version.ref = "firebaseCrashlyticsBuildtools" }
 androidx-room3-runtime = { group = "androidx.room3", name = "room3-runtime", version.ref = "room3Runtime" }
 
 

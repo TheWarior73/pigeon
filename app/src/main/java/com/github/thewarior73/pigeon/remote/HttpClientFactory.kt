@@ -17,11 +17,13 @@ object HttpClientFactory {
 
     fun create(): HttpClient {
         return HttpClient(OkHttp) {
-            expectSuccess = true
+            expectSuccess = false
             install(ContentNegotiation) {
                 json(
                     Json {
                         ignoreUnknownKeys = true
+                        coerceInputValues = true
+                        isLenient = true
                     }
                 )
             }

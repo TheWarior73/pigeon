@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
     implementation(libs.androidx.room3.common)
+    implementation(libs.firebase.crashlytics.buildtools)
     implementation(libs.androidx.room3.runtime)
     implementation(libs.kotlinx.serialization.json)
 

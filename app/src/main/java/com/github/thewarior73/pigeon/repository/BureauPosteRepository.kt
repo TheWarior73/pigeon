@@ -10,8 +10,4 @@ object BureauPosteRepository {
     suspend fun refreshSampleData() {
         BureauPosteDatabase.loadInitialData()
     }
-
-    fun getBureauPostes(): Flow<List<BureauPoste>> {
-        return bureauPostes
-    }
 }

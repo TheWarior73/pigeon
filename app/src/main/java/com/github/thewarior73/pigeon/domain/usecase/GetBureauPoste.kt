@@ -5,9 +5,7 @@ import com.github.thewarior73.pigeon.repository.BureauPosteRepository
 import kotlinx.coroutines.flow.Flow
 
 object GetBureauPoste {
-    private val repository = BureauPosteRepository()
-
     operator fun invoke(): Flow<List<BureauPoste>> {
-        return repository.bureauPostes
+        return BureauPosteRepository.bureauPostes
     }
 }
