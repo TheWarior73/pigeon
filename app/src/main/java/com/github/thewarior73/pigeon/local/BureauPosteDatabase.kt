@@ -1,24 +1,46 @@
 package com.github.thewarior73.pigeon.local
 
-import com.github.thewarior73.pigeon.data.model.BureauPoste
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import android.content.Context
+import androidx.room3.Database
+import androidx.room3.Room
+import androidx.room3.RoomDatabase
+import com.github.thewarior73.pigeon.local.dao.BureauPosteDAO
+import com.github.thewarior73.pigeon.local.dao.DetailPosteDAO
+import com.github.thewarior73.pigeon.local.entity.BureauPosteEntity
+import com.github.thewarior73.pigeon.local.entity.DetailPosteEntity
 
-object BureauPosteDatabase {
-    private val _bureauPostes = MutableStateFlow<List<BureauPoste>>(emptyList())
-    val bureauPostes: Flow<List<BureauPoste>> = _bureauPostes.asStateFlow()
+@Database(
+    entities = [BureauPosteEntity::class, DetailPosteEntity::class],
+    version = 1,
+    exportSchema = false
+)
+abstract class BureauPosteDatabase : RoomDatabase() {
 
-    fun loadInitialData() {
-        if (_bureauPostes.value.isEmpty()) {
-            _bureauPostes.update {
-                listOf(
-                    BureauPoste("1", "Poste Centrale Paris", "Paris", "1 Rue du Louvre", "8h-18h", 18),
-                    BureauPoste("2", "Poste Lyon Bellecour", "Lyon", "Place Bellecour", "8h-18h", 20),
-                    BureauPoste("3", "Poste Marseille Canebière", "Marseille", "La Canebière", "8h-18h", 300)
-                )
+    abstract fun bureauPosteDao(): BureauPosteDAO
+    abstract fun detailPosteDao(): DetailPosteDAO
+
+    companion object {
+        private const val DB_NAME = "pigeon.db"
+
+        @Volatile
+        private var INSTANCE: BureauPosteDatabase? = null
+
+        fun get(context: Context): BureauPosteDatabase {
+            if (INSTANCE == null) {
+                synchronized(this) {
+                    Room.databaseBuilder(context, BureauPosteDatabase::class.java, DB_NAME).build()
+                        .also { INSTANCE = it }
+                }
             }
+            return INSTANCE!!
         }
+    }
+}
+
+data object BureauPosteDatabaseHolder {
+    var database: BureauPosteDatabase? = null
+
+    fun initialize(context: Context) {
+        database = BureauPosteDatabase.get(context);
     }
 }
