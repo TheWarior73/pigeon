@@ -96,9 +96,9 @@ fun HomeScreen(
                             )
                         },
                         colors = OutlinedTextFieldDefaults.colors(
-                            focusedContainerColor = Color.White,
-                            unfocusedContainerColor = Color.White,
-                            disabledContainerColor = Color.White,
+                            focusedContainerColor = MaterialTheme.colorScheme.background,
+                            unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                            disabledContainerColor = MaterialTheme.colorScheme.background,
                             focusedTextColor = MaterialTheme.colorScheme.tertiary,
                             unfocusedTextColor = MaterialTheme.colorScheme.tertiary,
                             focusedBorderColor = MaterialTheme.colorScheme.tertiary,
