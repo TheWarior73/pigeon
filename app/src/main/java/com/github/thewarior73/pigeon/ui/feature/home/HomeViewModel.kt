@@ -24,6 +24,9 @@ class HomeViewModel : ViewModel() {
     var maxDistance by mutableStateOf<Int?>(null)
         private set
 
+    var isLoading by mutableStateOf(false)
+        private set
+
     val bureauPoste: StateFlow<List<BureauPoste>> = snapshotFlow { searchQuery }
         .combine(GetBureauPoste.invoke()) { query, list ->
             if (query.isBlank()) {
@@ -57,10 +60,12 @@ class HomeViewModel : ViewModel() {
 
     fun fetchBureauPoste(context: Context? = null) {
         viewModelScope.launch {
+            isLoading = true
             try {
                 val response = LaPosteApi.fetchPostegeoloc(
                     distance = maxDistance,
-                    context = context
+                    context = context,
+                    query = searchQuery
                 )
                 val items = response.results.map { it.toBureauPoste() }
                 if (items.isNotEmpty()) {
@@ -70,6 +75,8 @@ class HomeViewModel : ViewModel() {
                 }
             } catch (e: Exception) {
                 BureauPosteDatabase.loadInitialData()
+            } finally {
+                isLoading = false
             }
         }
     }

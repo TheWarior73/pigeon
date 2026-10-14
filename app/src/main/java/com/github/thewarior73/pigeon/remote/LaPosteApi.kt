@@ -14,7 +14,8 @@ object LaPosteApi {
         distance: Int?,
         context: Context? = null,
         latitude: Double? = null,
-        longitude: Double? = null
+        longitude: Double? = null,
+        query: String? = null
     ): RemotePosteResponse {
         val (lat, lon) = if (latitude != null && longitude != null) {
             Pair(latitude, longitude)
@@ -26,7 +27,10 @@ object LaPosteApi {
 
         return try {
             val response = client.get("https://data.laposte.fr/data-fair/api/v1/datasets/laposte-poincont2/lines") {
-                parameter("geo_distance", "$lon,$lat,$distanceInMeters")
+                parameter("geo_distance", "$lon:$lat:$distanceInMeters")
+                if (!query.isNullOrBlank()) {
+                    parameter("q", query)
+                }
             }
             if (response.status.isSuccess()) {
                 response.body()
