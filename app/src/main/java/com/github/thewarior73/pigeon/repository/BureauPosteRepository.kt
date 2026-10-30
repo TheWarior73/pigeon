@@ -12,12 +12,20 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 object BureauPosteRepository {
-    val bureauPostes: Flow<List<BureauPoste>> = BureauPosteDatabaseHolder.database?.bureauPosteDao()?.getBureauPoste()?.map { list -> list.map { it.toBureauPoste() } } ?: flowOf(emptyList())
+    val bureauPostes: Flow<List<BureauPoste>> =
+        BureauPosteDatabaseHolder.database?.bureauPosteDao()?.getBureauPoste()
+            ?.map { list -> list.map { it.toBureauPoste() } } ?: flowOf(emptyList())
 
-    suspend fun syncBureauxPoste(distance: Int? = 50, context: Context? = null, query: String? = null) {
+    suspend fun syncBureauxPoste(
+        distance: Int? = 50,
+        context: Context? = null,
+        query: String? = null
+    ) {
         try {
-            val response = LaPosteApi.fetchPostegeoloc(distance = distance, context = context, query = query)
-            val entities = response.results.map { BureauPosteEntity.fromBureauPoste(it.toBureauPoste()) }
+            val response =
+                LaPosteApi.fetchPostegeoloc(distance = distance, context = context, query = query)
+            val entities =
+                response.results.map { BureauPosteEntity.fromBureauPoste(it.toBureauPoste()) }
             if (entities.isNotEmpty()) {
                 BureauPosteDatabaseHolder.database?.bureauPosteDao()?.upsert(entities)
             }
@@ -32,13 +40,15 @@ object BureauPosteRepository {
 
     fun getBureauxPoste(): Flow<List<BureauPoste>> {
         return BureauPosteDatabaseHolder.database?.bureauPosteDao()?.getBureauPoste()?.map {
-            it.map { it.toBureauPoste() } } ?: flowOf(emptyList())
+            it.map { it.toBureauPoste() }
+        } ?: flowOf(emptyList())
     }
 
     fun getDetailPostes(idBureau: String): Flow<List<DetailPoste>> {
-        return BureauPosteDatabaseHolder.database?.detailPosteDao()?.getDetailPostes(idBureau)?.map { list ->
-            list.map { it.toDetailPoste() }
-        } ?: flowOf(emptyList())
+        return BureauPosteDatabaseHolder.database?.detailPosteDao()?.getDetailPostes(idBureau)
+            ?.map { list ->
+                list.map { it.toDetailPoste() }
+            } ?: flowOf(emptyList())
     }
 
     suspend fun syncDetailPostes(idBureau: String) {

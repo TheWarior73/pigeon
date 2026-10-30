@@ -4,15 +4,10 @@ import android.content.Context
 import androidx.room3.Database
 import androidx.room3.Room
 import androidx.room3.RoomDatabase
-import com.github.thewarior73.pigeon.domain.data.Characteristic
 import com.github.thewarior73.pigeon.local.dao.BureauPosteDAO
 import com.github.thewarior73.pigeon.local.dao.DetailPosteDAO
 import com.github.thewarior73.pigeon.local.entity.BureauPosteEntity
 import com.github.thewarior73.pigeon.local.entity.DetailPosteEntity
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 
 @Database(
     entities = [BureauPosteEntity::class, DetailPosteEntity::class],
