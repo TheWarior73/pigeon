@@ -49,6 +49,22 @@ object LaPosteApi {
         }
     }
 
+    suspend fun fetchNextPage(nextUrl: String): RemotePosteResponse {
+        if (nextUrl.isBlank()) return RemotePosteResponse()
+        return try {
+            val response = client.get(nextUrl)
+            if (response.status.isSuccess()) {
+                response.body()
+            } else {
+                Log.e("LaPosteApi", "Next HTTP Error ${response.status}")
+                RemotePosteResponse()
+            }
+        } catch (e: Exception) {
+            Log.e("LaPosteApi", "Next Network Error: ${e.message}", e)
+            RemotePosteResponse()
+        }
+    }
+
     suspend fun fetchDetailPoste(identifiantA: String): DetailPoste? {
         val details = fetchDetailPostes(identifiantA)
         val today = LocalDate.now()

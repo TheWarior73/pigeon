@@ -14,4 +14,7 @@ interface BureauPosteDAO {
 
     @Query("SELECT * FROM bureau_poste")
     fun getBureauPoste(): Flow<List<BureauPosteEntity>>
+
+    @Query("DELETE FROM bureau_poste")
+    suspend fun clearAll()
 }

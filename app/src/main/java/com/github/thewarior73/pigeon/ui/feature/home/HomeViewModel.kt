@@ -26,6 +26,15 @@ class HomeViewModel : ViewModel() {
     var isLoading by mutableStateOf(false)
         private set
 
+    var isLoadingMore by mutableStateOf(false)
+        private set
+
+    var nextPageUrl by mutableStateOf<String?>(null)
+        private set
+
+    val hasNextPage: Boolean
+        get() = !nextPageUrl.isNullOrBlank()
+
     val bureauPoste: StateFlow<List<BureauPoste>> = snapshotFlow { searchQuery }
         .combine(GetBureauPoste.invoke()) { query, list ->
             if (query.isBlank()) {
@@ -60,8 +69,9 @@ class HomeViewModel : ViewModel() {
     fun fetchBureauPoste(context: Context? = null) {
         viewModelScope.launch {
             isLoading = true
+            nextPageUrl = null
             try {
-                BureauPosteRepository.syncBureauxPoste(
+                nextPageUrl = BureauPosteRepository.syncBureauxPoste(
                     distance = maxDistance,
                     context = context,
                     query = searchQuery
@@ -70,6 +80,22 @@ class HomeViewModel : ViewModel() {
                 e.printStackTrace()
             } finally {
                 isLoading = false
+            }
+        }
+    }
+
+    fun loadNextPage(context: Context? = null) {
+        val nextUrl = nextPageUrl
+        if (nextUrl.isNullOrBlank() || isLoading || isLoadingMore) return
+
+        viewModelScope.launch {
+            isLoadingMore = true
+            try {
+                nextPageUrl = BureauPosteRepository.loadNextPage(nextUrl)
+            } catch (e: Exception) {
+                // Ignore load error
+            } finally {
+                isLoadingMore = false
             }
         }
     }

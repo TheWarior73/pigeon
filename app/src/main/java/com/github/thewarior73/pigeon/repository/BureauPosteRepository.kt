@@ -20,17 +20,35 @@ object BureauPosteRepository {
         distance: Int? = 50,
         context: Context? = null,
         query: String? = null
-    ) {
+    ): String? {
         try {
             val response =
                 LaPosteApi.fetchPostegeoloc(distance = distance, context = context, query = query)
             val entities =
                 response.results.map { BureauPosteEntity.fromBureauPoste(it.toBureauPoste()) }
+            BureauPosteDatabaseHolder.database?.bureauPosteDao()?.clearAll()
             if (entities.isNotEmpty()) {
                 BureauPosteDatabaseHolder.database?.bureauPosteDao()?.upsert(entities)
             }
+            return response.next
         } catch (e: Exception) {
             e.printStackTrace()
+            return null
+        }
+    }
+
+    suspend fun loadNextPage(nextUrl: String): String? {
+        try {
+            val response = LaPosteApi.fetchNextPage(nextUrl)
+            val entities =
+                response.results.map { BureauPosteEntity.fromBureauPoste(it.toBureauPoste()) }
+            if (entities.isNotEmpty()) {
+                BureauPosteDatabaseHolder.database?.bureauPosteDao()?.upsert(entities)
+            }
+            return response.next
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return null
         }
     }
 

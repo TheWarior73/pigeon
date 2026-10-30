@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -198,13 +198,36 @@ fun HomeScreen(
                     contentPadding = PaddingValues(10.dp),
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
-                    items(items = poste) { element ->
+                    itemsIndexed(
+                        items = poste,
+                        key = { index, item -> "${item.id}_$index" }
+                    ) { index, element ->
+                        if (index >= poste.size - 2) {
+                            LaunchedEffect(index) {
+                                viewModel.loadNextPage(context)
+                            }
+                        }
                         BureauPosteItem(
                             poste = element,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .clickable { onDetailClick(element) }
                         )
+                    }
+
+                    if (viewModel.isLoadingMore) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator(
+                                    color = MaterialTheme.colorScheme.tertiary
+                                )
+                            }
+                        }
                     }
                 }
 

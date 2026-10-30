@@ -7,6 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class RemotePosteResponse(
     val total: Int? = null,
+    val next: String? = null,
     val results: List<RemotePosteLine> = emptyList()
 )
 

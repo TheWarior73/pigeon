@@ -36,6 +36,8 @@ abstract class BureauPosteDatabase : RoomDatabase() {
             }
             return INSTANCE!!
         }
+
+
     }
 }
 
