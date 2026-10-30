@@ -114,6 +114,7 @@ private fun ScheduleDay(date: String, schedule: DetailPoste?) {
 	val afternoon = schedule?.plage_ouverture_PM?.trim().orEmpty()
 	val isClosed = morning.equals("FERME", ignoreCase = true) ||
 		afternoon.equals("FERME", ignoreCase = true)
+	val isNoBreak = afternoon.isBlank() || afternoon.equals("pas de pause", ignoreCase = true) || afternoon.equals("non stop", ignoreCase = true) || afternoon.equals("sans pause", ignoreCase = true)
 
 	Column(
 		modifier = Modifier
@@ -137,6 +138,10 @@ private fun ScheduleDay(date: String, schedule: DetailPoste?) {
 				style = MaterialTheme.typography.bodyMedium,
 				color = MaterialTheme.colorScheme.error
 			)
+			morning.isNotBlank() && isNoBreak -> {
+				SchedulePeriod(label = "Journée continue", hours = morning)
+				SchedulePeriod(label = "Pause midi", hours = "Pas de pause")
+			}
 			else -> {
 				if (morning.isNotBlank()) {
 					SchedulePeriod(label = "Matin", hours = morning)

@@ -138,7 +138,7 @@ fun DetailScreen(
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     Text(
-                        text = "${bureauPoste.distance} km",
+                        text = String.format(java.util.Locale.getDefault(), "%.1f km", bureauPoste.distance),
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.tertiary
                     )
@@ -191,16 +191,33 @@ fun DetailScreen(
                             modifier = Modifier.padding(start = 32.dp),
                             verticalArrangement = Arrangement.spacedBy(4.dp)
                         ) {
-                            Text(
-                                text = "• Matin : ${loadedDetail?.plage_ouverture_AM ?: "—"}",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = blue_laposte
-                            )
-                            Text(
-                                text = "• Après-midi : ${loadedDetail?.plage_ouverture_PM ?: "—"}",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = blue_laposte
-                            )
+                            val am = loadedDetail?.plage_ouverture_AM?.trim().orEmpty()
+                            val pm = loadedDetail?.plage_ouverture_PM?.trim().orEmpty()
+                            val isNoBreak = pm.isBlank() || pm.equals("pas de pause", ignoreCase = true) || pm.equals("non stop", ignoreCase = true) || pm.equals("sans pause", ignoreCase = true)
+
+                            if (loadedDetail != null && (am.isNotBlank() && isNoBreak)) {
+                                Text(
+                                    text = "• Journée continue : $am",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = blue_laposte
+                                )
+                                Text(
+                                    text = "• Pause du midi : Pas de pause",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = blue_laposte
+                                )
+                            } else {
+                                Text(
+                                    text = "• Matin : ${am.ifEmpty { "—" }}",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = blue_laposte
+                                )
+                                Text(
+                                    text = "• Après-midi : ${pm.ifEmpty { "—" }}",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = blue_laposte
+                                )
+                            }
                         }
                     }
                 }
