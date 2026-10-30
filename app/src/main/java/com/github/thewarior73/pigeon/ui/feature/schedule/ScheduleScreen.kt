@@ -28,7 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.github.thewarior73.pigeon.data.model.BureauPoste
 import com.github.thewarior73.pigeon.data.model.DetailPoste
-import com.github.thewarior73.pigeon.remote.LaPosteApi
+import com.github.thewarior73.pigeon.repository.BureauPosteRepository
 import com.github.thewarior73.pigeon.ui.theme.yellow_laposte_100
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -42,7 +42,10 @@ fun ScheduleScreen(
 ) {
 	var schedules by remember(bureauPoste.id) { mutableStateOf<List<DetailPoste>?>(null) }
 	LaunchedEffect(bureauPoste.id) {
-		schedules = LaPosteApi.fetchNextSevenDays(bureauPoste.id)
+		BureauPosteRepository.syncDetailPostes(bureauPoste.id)
+		BureauPosteRepository.getDetailPostes(bureauPoste.id).collect { newSchedules ->
+			schedules = newSchedules
+		}
 	}
 
 	val today = LocalDate.now()

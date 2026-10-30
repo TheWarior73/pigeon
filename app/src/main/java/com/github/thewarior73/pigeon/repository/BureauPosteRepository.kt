@@ -52,10 +52,6 @@ object BureauPosteRepository {
         }
     }
 
-    suspend fun setBureauPoste() {
-
-    }
-
     fun getBureauxPoste(): Flow<List<BureauPoste>> {
         return BureauPosteDatabaseHolder.database?.bureauPosteDao()?.getBureauPoste()?.map {
             it.map { it.toBureauPoste() }
