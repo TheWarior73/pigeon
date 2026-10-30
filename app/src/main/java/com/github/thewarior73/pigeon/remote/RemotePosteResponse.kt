@@ -19,7 +19,7 @@ data class RemotePosteLine(
     val adresse: String? = null,
     val horat: String? = null,
     val _geopoint: String? = null,
-    val _distance: Float? = null
+    val _geo_distance: Float? = null
 ) {
     fun toBureauPoste(): BureauPoste {
         return BureauPoste(
@@ -29,7 +29,7 @@ data class RemotePosteLine(
             address = adresse ?: "",
             horaire = horat ?: "8h-18h",
             type = Characteristic.bdp,
-            distance = _distance?.let { it / 1000f } ?: 0f
+            distance = _geo_distance?.let { it / 1000f } ?: 0f
         )
     }
 }

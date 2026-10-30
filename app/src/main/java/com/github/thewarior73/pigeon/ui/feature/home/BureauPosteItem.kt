@@ -61,10 +61,13 @@ fun BureauPosteItem(
                         Text(
                             text = poste.name,
                             style = MaterialTheme.typography.titleMedium,
-                            color = gray_laposte_500
+                            color = gray_laposte_500,
+                            maxLines = 1,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                            modifier = Modifier.weight(1f).padding(end = 8.dp)
                         )
                         Text(
-                            text = "${poste.distance} km",
+                            text = String.format(java.util.Locale.getDefault(), "%.1f km", poste.distance),
                             style = MaterialTheme.typography.titleSmall,
                             color = gray_laposte_500
                         )

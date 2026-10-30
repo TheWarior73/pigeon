@@ -11,6 +11,8 @@ import com.github.thewarior73.pigeon.data.model.BureauPoste
 import com.github.thewarior73.pigeon.domain.usecase.GetBureauPoste
 import com.github.thewarior73.pigeon.local.BureauPosteDatabase
 import com.github.thewarior73.pigeon.remote.LaPosteApi
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
