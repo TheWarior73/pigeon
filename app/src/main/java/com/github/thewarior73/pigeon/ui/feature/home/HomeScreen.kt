@@ -22,17 +22,13 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -49,7 +45,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.github.thewarior73.pigeon.R
 import com.github.thewarior73.pigeon.data.model.BureauPoste
-import com.github.thewarior73.pigeon.ui.theme.gray_laposte_100
 import com.github.thewarior73.pigeon.ui.theme.yellow_laposte_100
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -165,7 +160,8 @@ fun HomeScreen(
                 ) {
                     Box {
                         Button(onClick = { distanceMenuExpanded = true }) {
-                            Text(text = viewModel.maxDistance?.let { "Distance: ${it} km" } ?: "Distance: Toutes")
+                            Text(text = viewModel.maxDistance?.let { "Distance: ${it} km" }
+                                ?: "Distance: Toutes")
                         }
                         DropdownMenu(
                             expanded = distanceMenuExpanded,

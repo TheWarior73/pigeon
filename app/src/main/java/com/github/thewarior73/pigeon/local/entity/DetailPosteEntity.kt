@@ -2,12 +2,11 @@ package com.github.thewarior73.pigeon.local.entity
 
 import androidx.room3.ColumnInfo
 import androidx.room3.Entity
-import androidx.room3.PrimaryKey
 import com.github.thewarior73.pigeon.data.model.DetailPoste
 
-@Entity(tableName = "detail_poste")
+@Entity(tableName = "detail_poste", primaryKeys = ["id_bureau", "date"])
 data class DetailPosteEntity(
-    @PrimaryKey @ColumnInfo(name = "id_bureau") val id_bureau: String,
+    @ColumnInfo(name = "id_bureau") val id_bureau: String,
     @ColumnInfo(name = "date") val date: String,
     @ColumnInfo(name = "plage_ouverture_AM") val plage_ouverture_AM: String?,
     @ColumnInfo(name = "plage_ouverture_PM") val plage_ouverture_PM: String?,

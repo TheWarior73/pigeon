@@ -9,10 +9,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.github.thewarior73.pigeon.data.model.BureauPoste
 import com.github.thewarior73.pigeon.domain.usecase.GetBureauPoste
-import com.github.thewarior73.pigeon.local.BureauPosteDatabase
-import com.github.thewarior73.pigeon.remote.LaPosteApi
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import com.github.thewarior73.pigeon.repository.BureauPosteRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
@@ -36,8 +33,8 @@ class HomeViewModel : ViewModel() {
             } else {
                 list.filter {
                     it.name.contains(query, ignoreCase = true) ||
-                    it.city.contains(query, ignoreCase = true) ||
-                    it.address.contains(query, ignoreCase = true)
+                            it.city.contains(query, ignoreCase = true) ||
+                            it.address.contains(query, ignoreCase = true)
                 }
             }
         }
@@ -64,19 +61,13 @@ class HomeViewModel : ViewModel() {
         viewModelScope.launch {
             isLoading = true
             try {
-                val response = LaPosteApi.fetchPostegeoloc(
+                BureauPosteRepository.syncBureauxPoste(
                     distance = maxDistance,
                     context = context,
                     query = searchQuery
                 )
-                val items = response.results.map { it.toBureauPoste() }
-                if (items.isNotEmpty()) {
-                    BureauPosteDatabase.updateBureauPostes(items)
-                } else {
-                    BureauPosteDatabase.loadInitialData()
-                }
             } catch (e: Exception) {
-                BureauPosteDatabase.loadInitialData()
+                e.printStackTrace()
             } finally {
                 isLoading = false
             }
