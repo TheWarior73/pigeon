@@ -37,7 +37,7 @@ class HomeViewModel : ViewModel() {
 
     val bureauPoste: StateFlow<List<BureauPoste>> = snapshotFlow { searchQuery }
         .combine(GetBureauPoste.invoke()) { query, list ->
-            if (query.isBlank()) {
+            val filtered = if (query.isBlank()) {
                 list
             } else {
                 list.filter {
@@ -46,6 +46,7 @@ class HomeViewModel : ViewModel() {
                             it.address.contains(query, ignoreCase = true)
                 }
             }
+            filtered.distinctBy { it.id }
         }
         .stateIn(
             scope = viewModelScope,
